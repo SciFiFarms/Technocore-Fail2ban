@@ -26,9 +26,6 @@ services:
       mode: global
       restart_policy:
         condition: any
-      placement:
-        constraints:
-          - node.role == manager
       # Big services will need this modified or removed.
       resources:
         limits:
@@ -36,7 +33,10 @@ services:
         reservations:
           memory: 64M
     image: ${image_provider:-scififarms}/technocore-fail2ban:${TAG:-latest}
-    #<<: *logging-defaults
+    logging:
+      driver: "${LOGGING_DRIVER}"
+      options:
+        tag: "{{.Name}}"
     networks:
       - fail2ban
     volumes:
