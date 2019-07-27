@@ -1,11 +1,9 @@
 #!/bin/env bash
 
-# Defaults to the service's directory name. 
-service_name=${PWD##*/}
+# $service_name Defaults to the service's directory name. 
 
 # Leave blank to disable this service by default.
 set_service_flag $service_name
-#set_service_flag $service_name yes
 
 # Sets the application prefix depending on what $INGRESS_TYPE is set to. 
 # Results in one of the following paths: 
@@ -19,4 +17,3 @@ set_service_flag $service_name
 #if [ ! -z "$SERVICE_prometheus_exporters" ]; then
 #    export SERVICE_CONFIG_prometheus_exporters=${TECHNOCORE_SERVICES}/prometheus/exporters.yml
 #fi
-

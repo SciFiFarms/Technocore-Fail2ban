@@ -15,6 +15,13 @@ services:
       - fail2ban
 
   fail2ban:
+    environment:
+      - TZ=${TZ}
+      - F2B_LOG_TARGET=STDOUT
+      - F2B_LOG_LEVEL=INFO
+      - F2B_DB_PURGE_AGE=1d
+      - F2B_MAX_RETRY=3
+      - F2B_ACTION=%(action_)s
     deploy:
       mode: global
       restart_policy:
@@ -33,5 +40,6 @@ services:
     networks:
       - fail2ban
     volumes:
-      # Likely need to change this
-      - fail2ban:/var/lib/fail2ban
+      - fail2ban:/data
+      - /var/log:/var/log:ro
+      - /var/lib/docker/containers/:/var/lib/docker/containers:ro
