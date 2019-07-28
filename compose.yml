@@ -1,21 +1,17 @@
 version: "3.5"
-# You should be able to find & replace all instances of fail2ban with 
-# your actual_service_name. Then you just need address any places that 
-# typically need changes (designated by comments)
 
-networks:
-  fail2ban:
-
-volumes:
-  fail2ban:
 
 services:
-  ingress:
-    networks:
-      - fail2ban
 
   fail2ban:
     environment:
+      - IMAGE_TO_RUN=${image_provider:-scififarms}/technocore-fail2ban:${TAG:-latest}
+      - VOLUMES_TO_MO.UNT= -v ${STACK_NAME}_fail2ban:/data -v /var/log:/var/log:ro -v /var/lib/docker/containers/:/var/lib/docker/containers:ro
+      - CAP_PRIVS= --cap-add=NET_ADMIN 
+      # I don't think --cap-add=NET_RAW is nessasry 
+      - STACK_NAME=${STACK_NAME}
+      - SERVICE_NAME=fail2ban
+      - NETWORKS= --network host 
       - TZ=${TZ}
       - F2B_LOG_TARGET=STDOUT
       - F2B_LOG_LEVEL=INFO
@@ -32,14 +28,10 @@ services:
           memory: 128M
         reservations:
           memory: 64M
-    image: ${image_provider:-scififarms}/technocore-fail2ban:${TAG:-latest}
+    image: ${image_provider:-scififarms}/technocore-add-cap-wrapper:${TAG:-latest}
     logging:
       driver: "${LOGGING_DRIVER}"
       options:
         tag: "{{.Name}}"
-    networks:
-      - fail2ban
     volumes:
-      - fail2ban:/data
-      - /var/log:/var/log:ro
-      - /var/lib/docker/containers/:/var/lib/docker/containers:ro
+      - /var/run/docker.sock:/var/run/docker.sock
