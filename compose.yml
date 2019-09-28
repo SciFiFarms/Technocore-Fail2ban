@@ -19,6 +19,8 @@ services:
       - F2B_MAX_RETRY=3
       - F2B_ACTION=%(action_)s
     deploy:
+      labels:
+        - com.ouroboros.enable=true
       mode: global
       restart_policy:
         condition: any
