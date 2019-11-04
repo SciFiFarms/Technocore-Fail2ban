@@ -3,7 +3,7 @@
 # $service_name Defaults to the service's directory name. 
 
 # Leave blank to disable this service by default.
-set_service_flag $service_name yes
+set_service_flag $service_name
 
 # Sets the application prefix depending on what $INGRESS_TYPE is set to. 
 # Results in one of the following paths: 
