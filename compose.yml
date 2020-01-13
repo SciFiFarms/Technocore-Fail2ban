@@ -6,7 +6,7 @@ services:
   fail2ban:
     environment:
       - IMAGE_TO_RUN=${image_provider:-scififarms}/technocore-fail2ban:${TAG:-latest}
-      - VOLUMES_TO_MO.UNT= -v ${STACK_NAME}_fail2ban:/data -v /var/log:/var/log:ro -v /var/lib/docker/containers/:/var/lib/docker/containers:ro
+      - VOLUMES_TO_MOUNT= -v ${STACK_NAME}_fail2ban:/data -v /var/log:/var/log:ro -v /var/lib/docker/containers/:/var/lib/docker/containers:ro
       - CAP_PRIVS= --cap-add=NET_ADMIN 
       # I don't think --cap-add=NET_RAW is nessasry 
       - STACK_NAME=${STACK_NAME}
@@ -17,6 +17,8 @@ services:
       - F2B_LOG_LEVEL=INFO
       - F2B_DB_PURGE_AGE=1d
       - F2B_MAX_RETRY=3
+      #- F2B_DEST_EMAIL=webmaster@example.com
+      #- F2B_SENDER=fail2ban@example.com
       - F2B_ACTION=%(action_)s
     deploy:
       labels:
